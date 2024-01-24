@@ -23,10 +23,11 @@ def main():
     parser.add_argument('--root', type=str, required=True, help="STIOS root")
     parser.add_argument('--rcvisard', default=False, action='store_true', help="Run on rc_visard images")
     parser.add_argument('--zed', default=False, action='store_true', help="Run on ZED images")
+    parser.add_argument('--synthetic', default=False, action='store_true', help="Run on synthetic images")
     args = parser.parse_args()
 
-    assert args.rcvisard or args.zed
-    assert not (args.rcvisard and args.zed)
+    assert args.rcvisard or args.zed or args.synthetic
+    assert not ((args.rcvisard and args.zed) or (args.rcvisard and args.sythetic) or (args.synthetic and args.zed) or (args.rcvisard and args.zed and args.synthetic))
     assert os.path.isfile(args.state_dict)
 
     cfg, net = stuff_from_state_dict_path(args.state_dict)
@@ -34,10 +35,14 @@ def main():
         print('Modifying subpixel correlation layer to fit ZED intrinsics')
         time.sleep(1)
         net.adapt_to_new_intrinsics(f_new=1390.0277099609375 / (2208/640), b_new=0.12)
-    else:
+    elif args.rcvisard:
         print('Modifying subpixel correlation layer to fit rc_visard intrinsics')
         time.sleep(1)
         net.adapt_to_new_intrinsics(f_new=1082.28 / (1280/640), b_new=0.0650206)
+    else:
+        print('Modifying subpixel correlation layer to fit synthetic data intrinsics')
+        time.sleep(1)
+        net.adapt_to_new_intrinsics(f_new=1082.28 / (1280 / 720), b_new=0.12)
 
     net = net.cuda().eval()
 
@@ -50,7 +55,8 @@ def main():
             continue
         if sensor == 'rc_visard' and not args.rcvisard:
             continue
-
+        if sensor == 'synthetic' and not args.synthetic:
+            continue
         # go through all folders
         for folder in tqdm(paths[sensor].keys()):
 
