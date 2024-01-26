@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fce492d-5ab6-4fa0-bad4-ed3baa1f771b" name="Changes" comment="fitted to my usecase step1" />
+    <list default="true" id="9fce492d-5ab6-4fa0-bad4-ed3baa1f771b" name="Changes" comment="fitted to my usecase step1">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predict_stios.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict_stios.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,12 +21,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "volse01"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;volse01&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -43,31 +46,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.confmat.executor": "Run",
-    "Python.predictor.executor": "Run",
-    "Python.python demo.py.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --rcvisard.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --visard.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcvisard --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcvizard --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcwizard --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS {--rcvisard --zed}.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS/zed --zed.executor": "Run",
-    "Python.python train.py --config-file configs/config.yaml MODEL.AUX_DECODER_LOSS False AXIAL_ATTENTION False.executor": "Run",
-    "Python.python train.py --config-file configs/config.yaml OPTIMIZER.LR 0.00001.executor": "Run",
-    "Python.python train.py --config-file configs/config.yaml OPTIONAL_ARGS.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/foj-jv/Nextcloud/Fraunhofer/software/instr",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.confmat.executor&quot;: &quot;Run&quot;,
+    &quot;Python.predictor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python demo.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --rcvisard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --visard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcvisard --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcvizard --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcwizard --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS {--rcvisard --zed}.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS/zed --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python train.py --config-file configs/config.yaml MODEL.AUX_DECODER_LOSS False AXIAL_ATTENTION False.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python train.py --config-file configs/config.yaml OPTIMIZER.LR 0.00001.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python train.py --config-file configs/config.yaml OPTIONAL_ARGS.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/foj-jv/Nextcloud/Fraunhofer/software/instr&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="conda env create -f environment.yaml" />
