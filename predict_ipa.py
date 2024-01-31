@@ -7,13 +7,16 @@ Code utilities: https://github.com/DLR-RM/stios-utils
 
 import os
 import argparse
+
+import cv2
 import numpy as np
 from tqdm import tqdm
 from PIL import Image
 import torch
 import time
+import cv2
 
-from utils.pred_utils import load_data, process_im, stuff_from_state_dict_path
+from utils.pred_utils_ipa import load_data, process_im, stuff_from_state_dict_path, resize_keep_centered_greyscale
 from utils.confmat import ConfusionMatrix
 
 
@@ -21,23 +24,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--state-dict', type=str, default='./pretrained_instr/models/pretrained_model.pth', help="Path to INSTR checkpoint")
     parser.add_argument('--root', type=str, required=True, help="STIOS root")
-    parser.add_argument('--rcvisard', default=False, action='store_true', help="Run on rc_visard images")
-    parser.add_argument('--zed', default=False, action='store_true', help="Run on ZED images")
     args = parser.parse_args()
 
-    assert args.rcvisard or args.zed
-    assert not args.rcvisard and args.zed
     assert os.path.isfile(args.state_dict)
 
     cfg, net = stuff_from_state_dict_path(args.state_dict)
-    if args.zed:
-        print('Modifying subpixel correlation layer to fit ZED intrinsics')
-        time.sleep(1)
-        net.adapt_to_new_intrinsics(f_new=1390.0277099609375 / (2208/640), b_new=0.12)
-    elif args.rcvisard:
-        print('Modifying subpixel correlation layer to fit rc_visard intrinsics')
-        time.sleep(1)
-        net.adapt_to_new_intrinsics(f_new=1082.28 / (1280/640), b_new=0.0650206)
+
+    print('Modifying subpixel correlation layer to fit synthetic data intrinsics')
+    time.sleep(1)
+    net.adapt_to_new_intrinsics(f_new=585.121 / (1280 / 720), b_new=0.12)
 
     net = net.cuda().eval()
 
@@ -46,11 +41,6 @@ def main():
     results = {}
 
     for sensor in paths.keys():
-        if sensor == 'zed' and not args.zed:
-            continue
-        if sensor == 'rc_visard' and not args.rcvisard:
-            continue
-
         # go through all folders
         for folder in tqdm(paths[sensor].keys()):
 
@@ -69,12 +59,14 @@ def main():
                 left_t = process_im(left)
                 right_t = process_im(right)
 
-                gt = np.array(Image.open(gt))
-                gt = torch.from_numpy(gt).unsqueeze(0)
+
 
                 with torch.no_grad():
                     preds = net({'color_0': left_t, 'color_1': right_t})
                 pred = preds['predictions_0'][0].unsqueeze(0)
+
+                gt = np.array(resize_keep_centered_greyscale(gt, pred.shape[3], pred.shape[2]))
+                gt = torch.from_numpy(gt).unsqueeze(0)
 
                 mat(pred, targets=gt)
                 ious.append(mat.get_iou().item())
@@ -82,7 +74,6 @@ def main():
                 rec.append(mat.get_rec().item())
                 pre.append(mat.get_pre().item())
 
-                
             results[folder] = {
                 'ious': ious,
                 'f1s': f1s,
