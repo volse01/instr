@@ -164,3 +164,24 @@ def resize_keep_centered_greyscale(image_path, target_width, target_height):
         cropped_img = resized_img[0:target_height, crop:crop + target_width]
 
     return cropped_img
+
+def to_image(gt):
+
+    gt = gt.cpu().detach().numpy()  # Convert tensor to numpy array
+    gt = gt.squeeze()  # Remove singleton dimensions if any
+    gt = np.clip(gt, 0, 255).astype(np.uint8)  # Clip and convert to uint8
+
+    # Save the image using OpenCV
+    cv2.imwrite('./output_image.png', gt)
+
+    return 0
+def to_image_pred(pred):
+
+    pred = pred.cpu().detach().numpy()  # Convert tensor to numpy array
+    pred = pred.squeeze()  # Remove singleton dimensions if any
+    pred = np.clip(pred, 0, 255).astype(np.uint8)  # Clip and convert to uint8
+
+    # Save the image using OpenCV
+    cv2.imwrite('./output_image_pred.png', pred)
+
+    return 0

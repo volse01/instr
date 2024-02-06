@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fce492d-5ab6-4fa0-bad4-ed3baa1f771b" name="Changes" comment="fitting to use-case">
-      <change afterPath="$PROJECT_DIR$/playground.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/predict_ipa.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/pred_utils_ipa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="9fce492d-5ab6-4fa0-bad4-ed3baa1f771b" name="Changes" comment="new function and fitted for data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predict_stios.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict_stios.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predict_ipa.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict_ipa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/pred_utils_ipa.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/pred_utils_ipa.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,33 +60,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Python.confmat.executor": "Run",
-    "Python.playground.executor": "Run",
-    "Python.predictor.executor": "Run",
-    "Python.python demo.py.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --rcvisard.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --visard.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcvisard --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcvizard --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcwizard --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --zed.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS {--rcvisard --zed}.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS.executor": "Run",
-    "Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS/zed --zed.executor": "Run",
-    "Python.python train.py --config-file configs/config.yaml MODEL.AUX_DECODER_LOSS False AXIAL_ATTENTION False.executor": "Run",
-    "Python.python train.py --config-file configs/config.yaml OPTIMIZER.LR 0.00001.executor": "Run",
-    "Python.python train.py --config-file configs/config.yaml OPTIONAL_ARGS.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/foj-jv/Nextcloud/Fraunhofer/software/instr/utils",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Python.confmat.executor&quot;: &quot;Run&quot;,
+    &quot;Python.playground.executor&quot;: &quot;Run&quot;,
+    &quot;Python.predictor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python demo.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --rcvisard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --visard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/data/STIOS --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcvisard --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcvizard --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --rcwizard --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS {--rcvisard --zed}.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /home/foj-jv/Nextcloud/Fraunhofer/software/instr/STIOS/zed --zed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python train.py --config-file configs/config.yaml MODEL.AUX_DECODER_LOSS False AXIAL_ATTENTION False.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python train.py --config-file configs/config.yaml OPTIMIZER.LR 0.00001.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python train.py --config-file configs/config.yaml OPTIONAL_ARGS.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/foj-jv/Nextcloud/Fraunhofer/software/instr/utils&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/utils" />
@@ -269,7 +266,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706273178886</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="updated gitignore">
+      <option name="closed" value="true" />
+      <created>1706722360114</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1706722360114</updated>
+    </task>
+    <task id="LOCAL-00006" summary="new function and fitted for data">
+      <option name="closed" value="true" />
+      <created>1706722390922</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1706722390922</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -287,6 +300,8 @@
     <MESSAGE value="fitted to my usecase step1" />
     <MESSAGE value="add gitignore" />
     <MESSAGE value="fitting to use-case" />
-    <option name="LAST_COMMIT_MESSAGE" value="fitting to use-case" />
+    <MESSAGE value="updated gitignore" />
+    <MESSAGE value="new function and fitted for data" />
+    <option name="LAST_COMMIT_MESSAGE" value="new function and fitted for data" />
   </component>
 </project>

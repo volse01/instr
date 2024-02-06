@@ -16,7 +16,7 @@ import torch
 import time
 import cv2
 
-from utils.pred_utils_ipa import load_data, process_im, stuff_from_state_dict_path, resize_keep_centered_greyscale
+from utils.pred_utils_ipa import load_data, process_im, stuff_from_state_dict_path, resize_keep_centered_greyscale, to_image, to_image_pred
 from utils.confmat import ConfusionMatrix
 
 
@@ -65,8 +65,17 @@ def main():
                     preds = net({'color_0': left_t, 'color_1': right_t})
                 pred = preds['predictions_0'][0].unsqueeze(0)
 
+
                 gt = np.array(resize_keep_centered_greyscale(gt, pred.shape[3], pred.shape[2]))
                 gt = torch.from_numpy(gt).unsqueeze(0)
+                min_index = torch.min(gt)
+                gt -= min_index# Shift indices to start from 0
+                gt = gt/14
+                gt[gt > 15] = 15
+
+
+                to_image(gt)
+                #to_image_pred(pred)
 
                 mat(pred, targets=gt)
                 ious.append(mat.get_iou().item())
