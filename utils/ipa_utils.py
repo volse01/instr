@@ -133,10 +133,13 @@ def overlay_im_with_masks(im, ma, alpha=0.5):
     im_overlay = cv2.addWeighted(im_overlay, alpha, im_col, 1 - alpha, 0.0)
     return im_overlay
 
-def resize_keep_centered_greyscale(image_path, target_width, target_height):
-    # Read the image
-    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+def resize_keep_centered(image_path, target_width, target_height, grayscale=False):
 
+    if grayscale:
+        # Read the image in grayscale
+        img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    else:
+        img = cv2.imread(image_path)
     # Get the original image dimensions
     original_height, original_width = img.shape[:2]
 
@@ -175,7 +178,8 @@ def to_image(gt):
     cv2.imwrite('./output_image.png', gt)
 
     return 0
-def to_image_pred(pred):
+
+''''def to_image_pred(pred):
 
     pred = pred.cpu().detach().numpy()  # Convert tensor to numpy array
     pred = pred.squeeze()  # Remove singleton dimensions if any
@@ -184,4 +188,4 @@ def to_image_pred(pred):
     # Save the image using OpenCV
     cv2.imwrite('./output_image_pred.png', pred)
 
-    return 0
+    return 0'''''
