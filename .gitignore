@@ -1,6 +1,6 @@
 /pretrained_instr/
 pretrained_instr.zip
-*config.yaml
+*/config.yaml
 playground.py
 output_image.png
 /output
