@@ -26,7 +26,7 @@ def main():
     args = parser.parse_args()
 
     assert args.rcvisard or args.zed
-    assert not args.rcvisard and args.zed
+    assert not (args.rcvisard and args.zed)
     assert os.path.isfile(args.state_dict)
 
     cfg, net = stuff_from_state_dict_path(args.state_dict)

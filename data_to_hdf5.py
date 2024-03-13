@@ -2,7 +2,7 @@ import os
 import h5py
 import re
 import numpy as np
-from utils.ipa_utils import resize_keep_centered
+from utils.ipa_utils import resize_squeeze
 
 
 def convert_dir_to_hdf5(data_dir, output_dir, image_size=(480, 640, 3)):
@@ -121,11 +121,11 @@ def load_and_store_data(hdf5_file, color_0_path, color_1_path, depth_0_path, dep
         image_size (tuple): Expected size of the images (height, width) in pixels.
     """
 
-    color_0 = np.array(resize_keep_centered(color_0_path, image_size[1], image_size[0]))
-    color_1 = np.array(resize_keep_centered(color_1_path, image_size[1], image_size[0]))
-    depth_0 = np.array(resize_keep_centered(depth_0_path, image_size[1], image_size[0]))
-    depth_1 = np.array(resize_keep_centered(depth_1_path, image_size[1], image_size[0]))
-    segmap = np.array(resize_keep_centered(segmap_path, image_size[1], image_size[0]))
+    color_0 = np.array(resize_squeeze(color_0_path, image_size[1], image_size[0]))
+    color_1 = np.array(resize_squeeze(color_1_path, image_size[1], image_size[0]))
+    depth_0 = np.array(resize_squeeze(depth_0_path, image_size[1], image_size[0]))
+    depth_1 = np.array(resize_squeeze(depth_1_path, image_size[1], image_size[0]))
+    segmap = np.array(resize_squeeze(segmap_path, image_size[1], image_size[0]))
     hdf5_file["color_0"][idx] = color_0
     hdf5_file["color_1"][idx] = color_1
     hdf5_file["depth_0"][idx] = depth_0
@@ -133,7 +133,7 @@ def load_and_store_data(hdf5_file, color_0_path, color_1_path, depth_0_path, dep
     hdf5_file["semantic_segmentation"][idx] = segmap
 
 if __name__ == "__main__":
-    data_dir = "/path/to/data"
-    output_dir = "/path/to/hdf5"
+    data_dir = "/home/foj-jv/Nextcloud/Fraunhofer/software/data/ipa/synthetic"
+    output_dir = "/home/foj-jv/Nextcloud/Fraunhofer/software/data/ipa/hdf"
     image_size = (2048, 1024, 3)  # image width, image height, color channels
     convert_dir_to_hdf5(data_dir, output_dir, image_size)

@@ -8,15 +8,15 @@ Code utilities: https://github.com/DLR-RM/stios-utils
 import os
 import argparse
 
-import cv2
+
 import numpy as np
 from tqdm import tqdm
 from PIL import Image
 import torch
 import time
-import cv2
 
-from utils.ipa_utils import load_data, process_im, stuff_from_state_dict_path, resize_keep_centered, to_image, to_image_pred
+
+from utils.ipa_utils import load_data, process_im, stuff_from_state_dict_path, to_image, to_image_pred, resize_squeeze
 from utils.confmat import ConfusionMatrix
 
 
@@ -49,6 +49,8 @@ def main():
             f1s = []
             rec = []
             pre = []
+
+            iterator=0
             # load images
 
             for (left, right, depth, gt) in tqdm(paths[sensor][folder]):
@@ -66,16 +68,16 @@ def main():
                 pred = preds['predictions_0'][0].unsqueeze(0)
 
 
-                gt = np.array(resize_keep_centered(gt, pred.shape[3], pred.shape[2]), grayscale=True)
-                gt = torch.from_numpy(gt).unsqueeze(0)
-                min_index = torch.min(gt)
-                gt -= min_index# Shift indices to start from 0
-                gt = gt/14
-                gt[gt > 15] = 15
+                gt = np.array(resize_squeeze(gt, pred.shape[3], pred.shape[2], grayscale=True))
+                factor= gt.shape[0]/pred.shape[1]
+                gt[0:]=gt[0:]/factor
+                gt = torch.from_numpy(gt)
 
 
-                #to_image(gt)
-                #to_image_pred(pred)
+
+                to_image(gt, folder, iterator)
+                to_image_pred(pred, folder, iterator, args.root, sensor)
+                iterator+=1
 
                 mat(pred, targets=gt)
                 ious.append(mat.get_iou().item())
