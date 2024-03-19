@@ -16,7 +16,7 @@ import torch
 import time
 
 
-from utils.ipa_utils import load_data, process_im, stuff_from_state_dict_path, to_image, to_image_pred, resize_squeeze
+from utils.ipa_utils import load_data, process_im, stuff_from_state_dict_path, to_image, to_image_pred, resize_squeeze, data_cleaner
 from utils.confmat import ConfusionMatrix
 
 
@@ -69,14 +69,14 @@ def main():
 
 
                 gt = np.array(resize_squeeze(gt, pred.shape[3], pred.shape[2], grayscale=True))
-                factor= gt.shape[0]/pred.shape[1]
-                gt[0:]=gt[0:]/factor
+                gt=gt/14
                 gt = torch.from_numpy(gt)
 
 
 
                 to_image(gt, folder, iterator)
-                to_image_pred(pred, folder, iterator, args.root, sensor)
+                #to_image_pred(pred, folder, iterator, args.root, sensor)
+                data_cleaner(args.root,folder,sensor,iterator)
                 iterator+=1
 
                 mat(pred, targets=gt)

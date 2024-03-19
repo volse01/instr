@@ -133,59 +133,48 @@ def overlay_im_with_masks(im, ma, alpha=0.5):
     im_overlay = cv2.addWeighted(im_overlay, alpha, im_col, 1 - alpha, 0.0)
     return im_overlay
 
-def resize_keep_centered(image_path, target_width, target_height, grayscale=False):
+def resize_squeeze(image_path, target_width, target_height, grayscale=False):
+
 
     if grayscale:
         # Read the image in grayscale
         img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     else:
         img = cv2.imread(image_path)
-    # Get the original image dimensions
-    original_height, original_width = img.shape[:2]
-
-    # Calculate the resizing factors for width and height
-    width_ratio = target_width / original_width
-    height_ratio = target_height / original_height
-
-    # Choose the resizing factor that results in the smaller difference
-    if height_ratio < height_ratio:
-        resized_width = target_width
-        resized_height = int(original_height * width_ratio)
-        crop = (resized_height - target_height) // 2
-
-        resized_img = cv2.resize(img, (resized_width, resized_height))
-        cropped_img = resized_img[crop:crop + target_height, 0:target_width]
-
-    else:
-        resized_width = int(original_width * height_ratio)
-        resized_height = target_height
-        crop = (resized_width - target_width) // 2
 
         # Resize the image
-        resized_img = cv2.resize(img, (resized_width, resized_height))
-        # Crop the image
-        cropped_img = resized_img[0:target_height, crop:crop + target_width]
+    resized_img = cv2.resize(img, (target_width, target_height))
 
-    return cropped_img
+    return resized_img
 
-def to_image(gt):
+
+def to_image(gt, folder, iterator):
 
     gt = gt.cpu().detach().numpy()  # Convert tensor to numpy array
     gt = gt.squeeze()  # Remove singleton dimensions if any
     gt = np.clip(gt, 0, 255).astype(np.uint8)  # Clip and convert to uint8
 
+    filename=f'./../data/ipa/converted_gt/gt_{folder}_{iterator}.png'
     # Save the image using OpenCV
-    cv2.imwrite('./output_image.png', gt)
+    cv2.imwrite(filename, gt)
 
     return 0
-
-''''def to_image_pred(pred):
-
+def to_image_pred(pred, folder, iterator, root,sensor):
     pred = pred.cpu().detach().numpy()  # Convert tensor to numpy array
-    pred = pred.squeeze()  # Remove singleton dimensions if any
-    pred = np.clip(pred, 0, 255).astype(np.uint8)  # Clip and convert to uint8
 
-    # Save the image using OpenCV
-    cv2.imwrite('./output_image_pred.png', pred)
+    # Select maximum value for each pixel (assuming highest value is the prediction)
+    grayscale_pred = np.max(pred[0], axis=0)  # Maximum along channel axis
 
-    return 0'''''
+    # Clip and convert to uint8 for grayscale image
+    grayscale_pred = np.clip(grayscale_pred, 0, 255).astype(np.uint8)
+    filename = f'{root}/{sensor}/{folder}/{iterator}_pred_instr.png'
+    cv2.imwrite(filename, grayscale_pred)
+
+    return 0
+def data_cleaner(root,folder,sensor,iterator):
+    filename = f'{root}/{sensor}/{folder}/{iterator}_pred_instr.png'
+    try:
+        os.unlink(filename)
+    except FileNotFoundError:
+        print('File does not exist! (anymore?)')
+    return 0
