@@ -133,12 +133,12 @@ def overlay_im_with_masks(im, ma, alpha=0.5):
     im_overlay = cv2.addWeighted(im_overlay, alpha, im_col, 1 - alpha, 0.0)
     return im_overlay
 
-def resize_squeeze(image_path, target_width, target_height, grayscale=False):
+def resize_squeeze(image_path, target_width, target_height, object_count, grayscale=False, has_table=True):
 
 
     if grayscale:
         # Read the image in grayscale
-        img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+        img = segmap_to_gt(image_path, object_count, has_table=True)
     else:
         img = cv2.imread(image_path)
 
@@ -176,5 +176,44 @@ def data_cleaner(root,folder,sensor,iterator):
     try:
         os.unlink(filename)
     except FileNotFoundError:
-        print('File does not exist! (anymore?)')
+        print('\nFile does not exist! (anymore?)\n')
     return 0
+
+def segmap_to_gt(path, objectcount, has_table=True):
+
+    #open image in grayscale
+    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    # create arrays with the unique grayness and the pixel  count for this
+    colors, pixelcount = np.unique(img, return_counts=True)
+    # Create pairs with elements from both arrays
+    pairs = list(zip(pixelcount, colors ))
+    # Sort pairs based on the first element (descending order)
+    pairs.sort(reverse=True)
+    # Extract sorted and unchanged elements into separate arrays
+    colors_sorted = [pair[1] for pair in pairs]
+    #ignore background
+    if has_table:
+        colors_wo_bg = colors_sorted[2:]
+    else:
+        colors_wo_bg = colors_sorted[1:]
+
+    # shorten to number of objects
+    short_colors = colors_wo_bg[:objectcount]
+    # Iterate over each element in the image
+    for i, value in np.ndenumerate(img):
+        # Search for the value in the sorted color list
+        try:
+            position = np.searchsorted(short_colors, value)
+        except ValueError:
+            # If the value is not in the list, set it to 0 in the output array
+            img[i] = 0
+        else:
+            # If the value is in the list, set the output array element to the position + highest value in grayscale
+            # to don´t get interference
+            img[i] = position + len(colors_sorted)
+
+    # clean up of interference protection
+    img = img-len(colors_sorted)
+
+
+    return img
