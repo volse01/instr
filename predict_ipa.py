@@ -68,16 +68,13 @@ def main():
                 pred = preds['predictions_0'][0].unsqueeze(0)
 
 
-                gt = np.array(resize_squeeze(gt, pred.shape[3], pred.shape[2], grayscale=True))
-                gt=gt/14
+                gt = np.array(resize_squeeze(gt, pred.shape[3], pred.shape[2],pred.shape[1], grayscale=True, has_table=True))
                 gt = torch.from_numpy(gt)
-
-
 
                 to_image(gt, folder, iterator)
                 #to_image_pred(pred, folder, iterator, args.root, sensor)
-                data_cleaner(args.root,folder,sensor,iterator)
-                iterator+=1
+                #data_cleaner(args.root,folder,sensor,iterator)
+                iterator += 1
 
                 mat(pred, targets=gt)
                 ious.append(mat.get_iou().item())

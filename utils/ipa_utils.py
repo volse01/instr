@@ -13,6 +13,8 @@ from yacs.config import CfgNode
 import cv2
 from model.instr import INSTR
 from utils.colormap import get_spaced_colors
+from pathlib import PosixPath
+import json
 
 
 YCB_OBJECTS = [
@@ -88,7 +90,6 @@ def load_data(root=''):
         data[sensor][folder] = load_folder(root=root, sensor=sensor, folder=folder)
     return data
 
-
 def load_folder(root='', sensor='synthetic', folder='1'):
     root = os.path.join(root, sensor)
     prefs = sorted([elem.split('_')[0] for elem in fnmatch.filter(os.listdir(os.path.join(root, folder)),'*_colors_0.png')])
@@ -106,6 +107,36 @@ def load_folder(root='', sensor='synthetic', folder='1'):
         assert os.path.isfile(depth)
         assert os.path.isfile(gt)
         data.append([left, right, depth, gt])
+
+    return data
+def load_train_data(root=''):
+
+    data = []
+    directories = [item for item in os.listdir(root) if os.path.isdir(os.path.join(root, item))]
+
+    # Now, enumerate over the directories
+    for i, dir in enumerate(directories):
+        # Load the data from the director
+        data.append(load_train_folder(root=root,  folder=dir))
+
+    return data
+
+def load_train_folder(root='', folder='1'):
+    prefs = sorted([elem.split('_')[0] for elem in fnmatch.filter(os.listdir(os.path.join(root, folder)),'*_colors_0.png')])
+    data = []
+
+    for pref in prefs:
+
+        left = os.path.join(root, folder, pref + '_colors_0.png')
+        right = os.path.join(root, folder, pref + '_colors_1.png')
+        depth = os.path.join(root, folder, pref + '_depth_0.png')
+        segmap = os.path.join(root, folder, pref + '_class_segmaps.png')
+
+        assert os.path.isfile(left)
+        assert os.path.isfile(right)
+        assert os.path.isfile(depth)
+        assert os.path.isfile(segmap)
+        data.append([left, right, depth, segmap])
 
     return data
 
@@ -230,4 +261,31 @@ def segmap_to_gt(path, objectcount, has_table=True):
 
     # Return the final ground truth image
     return image_new
+
+def load_png(path, keys=None):
+    #if type(path) is PosixPath:
+        #path = path.as_posix()
+    #assert os.path.isfile(path), f"File {path} does not exist"
+    #assert '.png' in path, f"File {path} is not a png file"
+
+    #data_keys = [key for key in path.keys()]
+    #if keys is None:
+    #    keys = data_keys
+    #else:
+    #    assert [key in data_keys for key in keys], f"Invalid keys ({keys}) for data keys: {data_keys}"
+
+    png_data = {}
+    for dir in path:
+        for img in dir:
+            if img.endswith('.png'):
+                png_data[img] = np.array(cv2.imread(img))
+        #if os.path.join()path[key].dtype.char == 'S':
+        #    try:
+        #        png_data[key] = json.loads(bytes(np.array(path[key])))[0]
+        #    except:
+        #        png_data[key] = path[key]
+        #else:
+        #    png_data[key] = np.array(path[key])
+
+    return png_data
 
