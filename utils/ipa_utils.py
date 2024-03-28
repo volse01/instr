@@ -121,23 +121,30 @@ def load_train_data(root=''):
 
     return data
 
+# The function takes two arguments: the root directory and the folder name.
 def load_train_folder(root='', folder='1'):
+    # It first generates a list of prefixes (`prefs`) from the names of all PNG files in the specified folder that end with '_colors_0.png'.
     prefs = sorted([elem.split('_')[0] for elem in fnmatch.filter(os.listdir(os.path.join(root, folder)),'*_colors_0.png')])
+    # It initializes an empty list `data` to store the training data.
     data = []
 
+    # It then iterates over the prefixes.
     for pref in prefs:
-
+        # For each prefix, it constructs the file paths for the left and right color images, the depth image, and the segmentation map image.
         left = os.path.join(root, folder, pref + '_colors_0.png')
         right = os.path.join(root, folder, pref + '_colors_1.png')
         depth = os.path.join(root, folder, pref + '_depth_0.png')
         segmap = os.path.join(root, folder, pref + '_class_segmaps.png')
 
+        # It checks if each of these files exists. If a file does not exist, an `AssertionError` will be raised.
         assert os.path.isfile(left)
         assert os.path.isfile(right)
         assert os.path.isfile(depth)
         assert os.path.isfile(segmap)
+        # It then appends the file paths to the `data` list.
         data.append([left, right, depth, segmap])
 
+    # Finally, it returns the `data` list containing the file paths for all training data in the specified folder.
     return data
 
 
@@ -190,18 +197,24 @@ def to_image(gt, folder, iterator):
     cv2.imwrite(filename, gt)
 
     return 0
-def to_image_pred(pred, folder, iterator, root,sensor):
-    pred = pred.cpu().detach().numpy()  # Convert tensor to numpy array
+# The function takes six arguments: the image path, target width, target height, object count, grayscale flag, and has_table flag.
+def resize_squeeze(image_path, target_width, target_height, object_count=15, grayscale=False, has_table=True):
 
-    # Select maximum value for each pixel (assuming highest value is the prediction)
-    grayscale_pred = np.max(pred[0], axis=0)  # Maximum along channel axis
+    # If the grayscale flag is True, the function reads the image in grayscale using the `segmap_to_gt` function.
+    # The `segmap_to_gt` function is assumed to be defined elsewhere in your code, and it takes the image path, object count, and has_table flag as arguments.
+    if grayscale:
+        img = segmap_to_gt(image_path, object_count, has_table=True)
+    # If the grayscale flag is False, the function reads the image in color using the `cv2.imread` function.
+    else:
+        img = cv2.imread(image_path)
 
-    # Clip and convert to uint8 for grayscale image
-    grayscale_pred = np.clip(grayscale_pred, 0, 255).astype(np.uint8)
-    filename = f'{root}/{sensor}/{folder}/{iterator}_pred_instr.png'
-    cv2.imwrite(filename, grayscale_pred)
+    # The function then resizes the image to the target width and height using the `cv2.resize` function.
+    resized_img = cv2.resize(img, (target_width, target_height))
 
-    return 0
+    # Finally, the function returns the resized image.
+    return resized_img
+
+
 def data_cleaner(root,folder,sensor,iterator):
     filename = f'{root}/{sensor}/{folder}/{iterator}_pred_instr.png'
     try:

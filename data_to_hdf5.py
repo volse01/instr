@@ -94,7 +94,7 @@ def create_datasets(hdf5_file, color_0_paths, depth_0_paths, segmap_paths, image
         segmap_paths (List[str]): List of semantic segmentation map paths.
         image_size (tuple): Expected size of the images (height, width) in pixels.
     """
-    hdf5_file.create_dataset("colors", shape=(len(color_0_paths), 2) + image_size, maxshape=(None, 2) + image_size, chunks=True)
+    hdf5_file.create_dataset("colors", shape=(2, len(color_0_paths)) + image_size, maxshape=(2, None) + image_size, chunks=True)
     hdf5_file.create_dataset("depth", shape=(len(depth_0_paths),)+image_size, maxshape=(None,)+image_size, chunks=True)
     hdf5_file.create_dataset("segmap", shape=(len(segmap_paths),)+image_size, maxshape=(None,)+image_size, chunks=True)
 
@@ -118,13 +118,13 @@ def load_and_store_data(hdf5_file, color_0_path, color_1_path, depth_0_path, seg
     color_1 = np.array(resize_squeeze(color_1_path, image_size[1], image_size[0]))
     depth = np.array(resize_squeeze(depth_0_path, image_size[1], image_size[0]))
     segmap = np.array(resize_squeeze(segmap_path, image_size[1], image_size[0]))
-    hdf5_file["colors"][idx, 0] = color_0
-    hdf5_file["colors"][idx, 1] = color_1
+    hdf5_file["colors"][idx][0] = color_0
+    hdf5_file["colors"][idx][1] = color_1
     hdf5_file["depth"][idx] = depth
     hdf5_file["segmap"][idx] = segmap
 
 if __name__ == "__main__":
-    data_dir = "/home/foj-jv/Nextcloud/Fraunhofer/software/data/ipa/synthetic"
-    output_dir = "/home/foj-jv/Nextcloud/Fraunhofer/software/data/ipa/hdf"
+    data_dir = "/path/to/data"
+    output_dir = "/path/to/output/dir"
     image_size = (2048, 1024, 3)  # image width, image height, color channels
     convert_dir_to_hdf5(data_dir, output_dir, image_size)

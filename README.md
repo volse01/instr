@@ -94,7 +94,7 @@ For fine-tuning it is suggested to reduce the learning rate by a factor of 10, e
 STIOS is a table-top object dataset recorded by two stereo sensors with manual annotated instances for each frame ([website](https://www.dlr.de/rm/en/desktopdefault.aspx/tabid-17628/#gallery/36367), [code utilities](https://github.com/DLR-RM/stios-utils)).
 To evaluate and reproduce the experiments in the paper (Tab. 2), [download STIOS](https://zenodo.org/record/4706907#.YROCeDqxVhE) and the [pretrained model](https://drive.google.com/uc?id=1wFSTa5IoJYUTYpGeunE7SzXMfqRWXHi7).
 Extract the pretrained model in the project's root directory.
-Then, run `python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root /path/to/stios {--rcvisard, --zed}`.
+Then, run `python predict_stios.py --state-dict pretrained_instr/models/pretrained_model.pth --root ./../data/STIOS/ --rcvisard`.
 This will generate mIoU and F1 scores for every scene.
 
 ### Demo
@@ -103,3 +103,75 @@ Overwrite the [camera class](demo.py) so that it returns a pair of stereo images
 Then, run `python demo.py` for the default demo.
 
 Run `python demo.py --help` or have a look at the [predictor class](predictor.py) for further information.
+
+## Changes made to the original code
+- all files with the _ipa suffix have been modified to work with a different dataset which has following structure:
+  ``` bash
+  ├──root-folder
+  │     ├── converted_gt
+  │     ├── synthetic
+  │     │   ├── 1
+  │     │   │   ├── 0_class_segmaps.png
+  │     │   │   ├── 0_colors_0.png
+  │     │   │   ├── 0_colors_1.png
+  │     │   │   ├── 0_depth_0.png
+  │     │   │   ├── 0_depth_1.png
+  │     │   │   ├── 1_class_segmaps.png
+  │     │   │   ├── 1_colors_0.png
+  │     │   │   ├── 1_colors_1.png
+  │     │   │   ├── 1_depth_0.png
+  │     │   │   ├── 1_depth_1.png
+  │     │   │   ├── .
+  │     │   │   ├── .
+  │     │   │   ├── .
+  │     │   │   ├── scene.yaml
+  │     │   ├── 2
+  │     │   ├── .
+  │     │   ├── .
+  │     │   └── .
+  │     ├── train
+  │     │   ├── 1
+  │     │   ├── 2
+  │     │   ├── .
+  │     │   ├── .
+  │     │   └── .
+  │     └── val
+  │         ├── 10
+  │         ├── 18
+  │         ├── .
+  │         ├── .
+  │         ├── .
+  │         └── config.yaml
+  ```   
+  - the synthetic dataset is generated using the [blenderproc](blenderproc) module and used config in the val folder is the config from blenderproc
+  - the converted_gt folder contains the ground truth segmentation masks for the synthetic dataset converted from an ipa_utils.py function, if the line `to_image(gt)` is uncommented in predict_ipa.py 
+
+- the ipa_utils.py file has been modified the most so here a short overview of the modified functions:
+  - `to_image` function has been added to convert the ground truth segmentation masks to images
+  - `load_folder` and `load_data` fitted to dataset
+  - `resize_squeeze` function to resize the gt to needed size
+  - `to_image_pred` generates prediction images in the dataset folders
+  - `data_cleaner` function to remove the generated images from the dataset
+  - `segmap_to_gt` function to convert the segmentation maps (rgb) to ground truth images (grayscale) and filtering objects to fit the detection capabilities of the model
+### WiP
+  - png data loader for trainig:
+    - changes done:
+      - `load_train_data` and `load_train_folder` functions in ipa_utils.py to load the png data and return a list with following shape: 
+        -  dimension1: folder
+        -  dimension2: dataset in folder (left, right, depth, segmap), numerated in datatset
+        -  dimension3: images in dataset
+      - fitted dataloader_ipa.py and training.py file to call functions
+      - fitted dataloader to handle list instead of dictionary (partly)
+    - current error:
+      ```
+        File ¨instr/data_io/data_loader_ipa.py", line 111, in __getitem__
+        disp = self.depth_to_disp(extracted_data[2][0], baseline)
+        KeyError: 2
+      ```
+    - approaches I can think of:
+      - try to use dict instead of list
+  - png to hdf5 converter 
+    - written converter as data_to_hdf5.py to keep using ´factory method´ in training.py
+    - current problem (paraphrased):
+      - image in dataloade.py line 41 `im=ttf.to_pil_image(im)` expects 2/3 dimensions, gets 4
+      
